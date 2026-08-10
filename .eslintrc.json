@@ -1,0 +1,17 @@
+{
+    "root": true,
+    "extends": ["@salesforce/eslint-config-lwc/recommended"],
+    "plugins": ["@salesforce/lightning"],
+    "rules": {
+        "@lwc/lwc/no-api-reassignments": "error",
+        "@lwc/lwc/no-deprecated": "warn",
+        "@lwc/lwc/no-document-query": "error",
+        "@lwc/lwc/no-leading-uppercase-api-name": "error",
+        "no-console": ["warn", { "allow": ["warn", "error"] }],
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "prefer-const": "error",
+        "no-var": "error",
+        "eqeqeq": ["error", "always"],
+        "curly": "error"
+    }
+}
