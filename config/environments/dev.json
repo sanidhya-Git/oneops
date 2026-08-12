@@ -1,0 +1,34 @@
+{
+    "name":              "development",
+    "salesforce": {
+        "loginUrl":      "https://test.salesforce.com",
+        "apiVersion":    "59.0",
+        "orgAlias":      "oneops-dev"
+    },
+    "aiEngine": {
+        "url":           "http://localhost:3001",
+        "provider":      "openai",
+        "model":         "gpt-4o",
+        "fallbackOrder": ["openai", "claude", "gemini"],
+        "timeout":       30000
+    },
+    "redis": {
+        "url":           "redis://localhost:6379",
+        "ttl":           300
+    },
+    "logging": {
+        "level":         "debug",
+        "format":        "colorized"
+    },
+    "rateLimit": {
+        "windowMs":      900000,
+        "max":           500
+    },
+    "features": {
+        "aiScoring":     true,
+        "aiChat":        true,
+        "notifications": true,
+        "workflows":     true,
+        "batchScoring":  false
+    }
+}
