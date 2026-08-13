@@ -1,0 +1,28 @@
+# Standard Salesforce ignores
+.forceignore
+**/node_modules
+**/.git
+**/.github
+
+# Project-specific ignores — not deployed to Salesforce
+**/ai-engine
+**/scripts
+**/config
+**/docs
+**/package.json
+**/package-lock.json
+**/jest.config.js
+**/.eslintrc.json
+**/.prettierrc
+**/Dockerfile
+**/docker-compose.yml
+**/.env
+**/.env.*
+
+# Test data
+**/test-data
+**/scratch-org-data
+
+# Generated files
+**/coverage
+**/.nyc_output
