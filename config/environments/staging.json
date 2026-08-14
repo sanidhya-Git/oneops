@@ -1,0 +1,34 @@
+{
+    "name":              "staging",
+    "salesforce": {
+        "loginUrl":      "https://test.salesforce.com",
+        "apiVersion":    "59.0",
+        "orgAlias":      "oneops-sandbox"
+    },
+    "aiEngine": {
+        "url":           "https://ai-staging.internal:3001",
+        "provider":      "openai",
+        "model":         "gpt-4o",
+        "fallbackOrder": ["openai", "claude", "gemini"],
+        "timeout":       30000
+    },
+    "redis": {
+        "url":           "redis://redis:6379",
+        "ttl":           600
+    },
+    "logging": {
+        "level":         "info",
+        "format":        "json"
+    },
+    "rateLimit": {
+        "windowMs":      900000,
+        "max":           200
+    },
+    "features": {
+        "aiScoring":     true,
+        "aiChat":        true,
+        "notifications": true,
+        "workflows":     true,
+        "batchScoring":  true
+    }
+}
