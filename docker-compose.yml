@@ -1,0 +1,83 @@
+version: '3.9'
+
+services:
+
+  # ── AI Engine microservice ───────────────────────────────────
+  ai-engine:
+    build:
+      context: ./ai-engine
+      dockerfile: Dockerfile
+    container_name: oneops-ai-engine
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      ONEOPS_API_SECRET: ${ONEOPS_API_SECRET}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      CLAUDE_MODEL: ${CLAUDE_MODEL:-claude-sonnet-4-6}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      AI_PROVIDER_ORDER: ${AI_PROVIDER_ORDER:-openai,claude,gemini}
+      REDIS_URL: redis://redis:6379
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      SALESFORCE_LOGIN_URL: ${SALESFORCE_LOGIN_URL:-https://login.salesforce.com}
+      SALESFORCE_CLIENT_ID: ${SALESFORCE_CLIENT_ID}
+      SALESFORCE_CLIENT_SECRET: ${SALESFORCE_CLIENT_SECRET}
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    volumes:
+      - ai_logs:/app/logs
+    networks:
+      - oneops-net
+
+  # ── Redis cache ────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: oneops-redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru --save ""
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - oneops-net
+
+  # ── Nginx reverse proxy (for HTTPS termination in prod) ────────
+  nginx:
+    image: nginx:alpine
+    container_name: oneops-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - ai-engine
+    networks:
+      - oneops-net
+    profiles:
+      - production
+
+networks:
+  oneops-net:
+    driver: bridge
+
+volumes:
+  ai_logs:
+    driver: local
