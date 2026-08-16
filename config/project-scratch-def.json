@@ -1,0 +1,24 @@
+{
+    "orgName":            "OneOps AI Dev",
+    "edition":            "Developer",
+    "features":           ["MultiCurrency", "NetworksEnabled", "Communities", "ApexEmailBulkLimit"],
+    "settings": {
+        "languageSettings": {
+            "enableEndUserLanguage": true
+        },
+        "lightningExperienceSettings": {
+            "enableS1DesktopEnabled": true
+        },
+        "mobileSettings": {
+            "enableS1EncryptedStoragePref2": false
+        },
+        "pathAssistantSettings": {
+            "pathAssistantEnabled": true
+        }
+    },
+    "adminEmail":    "chandrapal@fulminoussoftware.com",
+    "country":       "US",
+    "language":      "en_US",
+    "timezone":      "America/Los_Angeles",
+    "hasSampleData": false
+}
