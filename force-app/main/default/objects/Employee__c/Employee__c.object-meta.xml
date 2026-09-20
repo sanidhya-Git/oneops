@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Employee</label>
+    <pluralLabel>Employees</pluralLabel>
+    <nameField>
+        <label>Employee Name</label>
+        <type>Text</type>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>HR employee records with complete profile, compensation, and employment history.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>true</enableChangeDataCapture>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+
+    <fields>
+        <fullName>Employee_ID__c</fullName>
+        <label>Employee ID</label>
+        <type>Text</type>
+        <length>20</length>
+        <unique>true</unique>
+        <externalId>true</externalId>
+        <required>true</required>
+        <description>Unique employee identifier. Format: EMP-XXXXX. Auto-generated on create.</description>
+    </fields>
+    <fields>
+        <fullName>Department__c</fullName>
+        <label>Department</label>
+        <type>Lookup</type>
+        <referenceTo>Department__c</referenceTo>
+        <relationshipLabel>Employees</relationshipLabel>
+        <relationshipName>Employees</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Manager__c</fullName>
+        <label>Manager</label>
+        <type>Lookup</type>
+        <referenceTo>Employee__c</referenceTo>
+        <relationshipLabel>Direct Reports</relationshipLabel>
+        <relationshipName>Direct_Reports</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Salesforce_User__c</fullName>
+        <label>Salesforce User</label>
+        <type>Lookup</type>
+        <referenceTo>User</referenceTo>
+        <relationshipLabel>Employee Profile</relationshipLabel>
+        <relationshipName>Employee_Profile</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+        <description>Linked Salesforce platform user for this employee.</description>
+    </fields>
+    <fields>
+        <fullName>Employment_Status__c</fullName>
+        <label>Employment Status</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Active</fullName><default>true</default><label>Active</label></value>
+                <value><fullName>Inactive</fullName><default>false</default><label>Inactive</label></value>
+                <value><fullName>On Leave</fullName><default>false</default><label>On Leave</label></value>
+                <value><fullName>Terminated</fullName><default>false</default><label>Terminated</label></value>
+                <value><fullName>Probation</fullName><default>false</default><label>Probation</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Employment_Type__c</fullName>
+        <label>Employment Type</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Full-Time</fullName><default>true</default><label>Full-Time</label></value>
+                <value><fullName>Part-Time</fullName><default>false</default><label>Part-Time</label></value>
+                <value><fullName>Contract</fullName><default>false</default><label>Contract</label></value>
+                <value><fullName>Intern</fullName><default>false</default><label>Intern</label></value>
+                <value><fullName>Consultant</fullName><default>false</default><label>Consultant</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Job_Title__c</fullName>
+        <label>Job Title</label>
+        <type>Text</type>
+        <length>100</length>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Date_of_Joining__c</fullName>
+        <label>Date of Joining</label>
+        <type>Date</type>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Date_of_Birth__c</fullName>
+        <label>Date of Birth</label>
+        <type>Date</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Work_Email__c</fullName>
+        <label>Work Email</label>
+        <type>Email</type>
+        <required>true</required>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Personal_Email__c</fullName>
+        <label>Personal Email</label>
+        <type>Email</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Phone__c</fullName>
+        <label>Phone</label>
+        <type>Phone</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Annual_Salary__c</fullName>
+        <label>Annual Salary</label>
+        <type>Currency</type>
+        <precision>16</precision>
+        <scale>2</scale>
+        <required>false</required>
+        <description>Base annual salary. Visible only to HR managers and above.</description>
+    </fields>
+    <fields>
+        <fullName>Annual_Leave_Balance__c</fullName>
+        <label>Annual Leave Balance (Days)</label>
+        <type>Number</type>
+        <precision>5</precision>
+        <scale>1</scale>
+        <required>false</required>
+        <defaultValue>20</defaultValue>
+    </fields>
+    <fields>
+        <fullName>Sick_Leave_Balance__c</fullName>
+        <label>Sick Leave Balance (Days)</label>
+        <type>Number</type>
+        <precision>5</precision>
+        <scale>1</scale>
+        <required>false</required>
+        <defaultValue>10</defaultValue>
+    </fields>
+    <fields>
+        <fullName>Office_Location__c</fullName>
+        <label>Office Location</label>
+        <type>Text</type>
+        <length>100</length>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Skills__c</fullName>
+        <label>Skills</label>
+        <type>LongTextArea</type>
+        <length>32768</length>
+        <visibleLines>5</visibleLines>
+        <required>false</required>
+        <description>Comma-separated skill tags used for project assignment.</description>
+    </fields>
+    <fields>
+        <fullName>AI_Performance_Score__c</fullName>
+        <label>AI Performance Score</label>
+        <type>Number</type>
+        <precision>5</precision>
+        <scale>2</scale>
+        <required>false</required>
+        <description>0–100 score generated by the AI engine based on delivery metrics, peer feedback, and project outcomes.</description>
+    </fields>
+    <fields>
+        <fullName>LinkedIn_URL__c</fullName>
+        <label>LinkedIn URL</label>
+        <type>Url</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Emergency_Contact_Name__c</fullName>
+        <label>Emergency Contact Name</label>
+        <type>Text</type>
+        <length>100</length>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Emergency_Contact_Phone__c</fullName>
+        <label>Emergency Contact Phone</label>
+        <type>Phone</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Termination_Date__c</fullName>
+        <label>Termination Date</label>
+        <type>Date</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Photo_URL__c</fullName>
+        <label>Profile Photo URL</label>
+        <type>Url</type>
+        <required>false</required>
+    </fields>
+
+    <searchLayouts>
+        <lookupDialogsAdditionalFields>Employee_ID__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Department__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Job_Title__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Employment_Status__c</lookupDialogsAdditionalFields>
+        <searchResultsAdditionalFields>Employee_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Department__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Job_Title__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Work_Email__c</searchResultsAdditionalFields>
+    </searchLayouts>
+</CustomObject>
