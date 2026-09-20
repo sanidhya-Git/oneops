@@ -1,0 +1,89 @@
+<template>
+    <!-- Collapsed: floating button -->
+    <template if:false={isOpen}>
+        <button class="ai-fab" onclick={openChat} aria-label="Open AI Assistant">
+            <lightning-icon icon-name="utility:einstein" size="small" alternative-text="AI"></lightning-icon>
+            <span class="ai-fab-label">Ask AI</span>
+        </button>
+    </template>
+
+    <!-- Expanded: chat panel -->
+    <template if:true={isOpen}>
+        <div class="ai-panel" role="dialog" aria-label="OneOps AI Assistant">
+            <!-- Header -->
+            <div class="ai-panel-header">
+                <div class="ai-header-left">
+                    <lightning-icon icon-name="utility:einstein" size="small" alternative-text="AI"></lightning-icon>
+                    <div>
+                        <div class="ai-title">OneOps AI</div>
+                        <div class="ai-subtitle">{providerLabel}</div>
+                    </div>
+                </div>
+                <div class="ai-header-actions">
+                    <button class="ai-action-btn" onclick={clearChat} title="Clear conversation">
+                        <lightning-icon icon-name="utility:refresh" size="xx-small" alternative-text="Clear"></lightning-icon>
+                    </button>
+                    <button class="ai-action-btn" onclick={closeChat} aria-label="Close AI panel">
+                        <lightning-icon icon-name="utility:close" size="xx-small" alternative-text="Close"></lightning-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="ai-messages" lwc:ref="messagesEl">
+                <!-- Welcome message -->
+                <template if:true={showWelcome}>
+                    <div class="ai-welcome">
+                        <p>Hello! I'm your OneOps AI assistant. Ask me about:</p>
+                        <div class="ai-suggestions">
+                            <template for:each={suggestions} for:item="s">
+                                <button key={s} class="ai-suggestion" onclick={handleSuggestion} data-text={s}>{s}</button>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <template for:each={messages} for:item="msg">
+                    <div key={msg.id} class={msg.cssClass}>
+                        <div class="msg-content">
+                            <template if:true={msg.isAI}>
+                                <lightning-icon icon-name="utility:einstein" size="xx-small" alternative-text="AI" class="msg-ai-icon"></lightning-icon>
+                            </template>
+                            <span class="msg-text">{msg.text}</span>
+                        </div>
+                        <span class="msg-time">{msg.time}</span>
+                    </div>
+                </template>
+
+                <!-- Typing indicator -->
+                <template if:true={isTyping}>
+                    <div class="ai-message ai-typing">
+                        <div class="typing-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Input area -->
+            <div class="ai-input-area">
+                <textarea
+                    class="ai-input"
+                    placeholder="Ask anything about your data..."
+                    value={inputText}
+                    oninput={handleInput}
+                    onkeydown={handleKeydown}
+                    rows="2"
+                    aria-label="Message to AI">
+                </textarea>
+                <button
+                    class="ai-send-btn"
+                    onclick={sendMessage}
+                    disabled={isSending}
+                    aria-label="Send message">
+                    <lightning-icon icon-name="utility:send" size="small" alternative-text="Send"></lightning-icon>
+                </button>
+            </div>
+        </div>
+    </template>
+</template>
