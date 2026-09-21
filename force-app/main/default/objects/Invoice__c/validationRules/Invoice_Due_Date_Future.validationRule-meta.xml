@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invoice_Due_Date_Future</fullName>
+    <active>true</active>
+    <description>Invoice due date must be today or in the future when creating a Draft invoice.</description>
+    <errorConditionFormula>ISPICKVAL(Status__c, 'Draft') &amp;&amp; Due_Date__c &lt; TODAY()</errorConditionFormula>
+    <errorDisplayField>Due_Date__c</errorDisplayField>
+    <errorMessage>Invoice due date cannot be in the past.</errorMessage>
+</ValidationRule>
