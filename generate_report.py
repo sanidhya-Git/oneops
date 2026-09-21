@@ -84,6 +84,31 @@ def group_by_member(commits):
     return groups
 
 
+def get_all_time_commits():
+    """All commits since project start across all members."""
+    project_start = datetime.date(2026, 8, 10)
+    since = project_start.strftime("%Y-%m-%d 00:00:00")
+    raw = git(
+        "log", "--all",
+        f"--since={since}",
+        "--pretty=format:%ae|%an|%s|%ad",
+        "--date=short"
+    )
+    commits = []
+    for line in raw.splitlines():
+        if "|" not in line:
+            continue
+        parts = line.split("|", 3)
+        if len(parts) == 4:
+            commits.append({
+                "email":   parts[0].strip(),
+                "author":  parts[1].strip(),
+                "message": parts[2].strip(),
+                "date":    parts[3].strip(),
+            })
+    return commits
+
+
 def week_number_of_project(start):
     project_start = datetime.date(2026, 8, 10)
     delta = (start - project_start).days
@@ -166,7 +191,44 @@ def build_pdf(mode="weekly"):
                              color=colors.HexColor(BRAND), spaceAfter=8))
 
     # ── Summary table ──
-    story.append(Paragraph("1. Week at a Glance", h2_style))
+    # ── All-time stats ──
+    all_commits   = get_all_time_commits()
+    all_groups    = group_by_member(all_commits)
+    total_ever    = len(all_commits)
+
+    story.append(Paragraph("1. Project Overview (All-Time)", h2_style))
+    overview_data = [
+        [Paragraph("<b>Member</b>", label_style),
+         Paragraph("<b>Role</b>", label_style),
+         Paragraph("<b>Total Commits</b>", label_style)],
+    ]
+    for m in TEAM_MEMBERS:
+        overview_data.append([
+            m["name"],
+            m["role"],
+            str(len(all_groups.get(m["name"], []))),
+        ])
+    overview_data.append([
+        Paragraph("<b>TOTAL</b>", label_style), "", Paragraph(f"<b>{total_ever}</b>", label_style)
+    ])
+    ov_tbl = Table(overview_data, colWidths=[5*cm, 7.5*cm, 3.5*cm])
+    ov_tbl.setStyle(TableStyle([
+        ("BACKGROUND",  (0, 0), (-1, 0), colors.HexColor(BRAND)),
+        ("TEXTCOLOR",   (0, 0), (-1, 0), colors.white),
+        ("FONTNAME",    (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("BACKGROUND",  (0, -1), (-1, -1), colors.HexColor("#E8F0F8")),
+        ("FONTSIZE",    (0, 0), (-1, -1), 8.5),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -2), [colors.HexColor("#F4F8FC"), colors.white]),
+        ("GRID",        (0, 0), (-1, -1), 0.4, colors.HexColor("#CCDDEE")),
+        ("TOPPADDING",  (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING",(0, 0), (-1, -1), 5),
+        ("LEFTPADDING", (0, 0), (-1, -1), 8),
+        ("ALIGN",       (2, 0), (2, -1), "CENTER"),
+    ]))
+    story.append(ov_tbl)
+    story.append(Spacer(1, 10))
+
+    story.append(Paragraph("2. Week at a Glance", h2_style))
     total = sum(len(v) for v in groups.values())
     summary_data = [
         [Paragraph("<b>Metric</b>", label_style), Paragraph("<b>Value</b>", label_style)],
@@ -197,7 +259,7 @@ def build_pdf(mode="weekly"):
     story.append(Spacer(1, 8))
 
     # ── Per-member commit tables ──
-    story.append(Paragraph("2. Contributions by Member", h2_style))
+    story.append(Paragraph("3. This Week's Contributions by Member", h2_style))
 
     for idx, member in enumerate(TEAM_MEMBERS):
         mname  = member["name"]

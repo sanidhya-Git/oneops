@@ -2,7 +2,18 @@ node_modules
 package-lock.json
 .forceignore
 .gitignore
-.github
+
+# secrets & local env
+.env
+*.env
+
+# build & test artifacts
+ai-engine/coverage/
+ai-engine/logs/
+coverage/
+logs/
+
+# scripts (not for repo)
 run_sanidhya.ps1
 run_sudhanshu.ps1
 run_shivam.ps1
