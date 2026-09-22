@@ -1,0 +1,52 @@
+<template>
+    <div class="insights-container">
+        <div class="module-header">
+            <div>
+                <h1 class="module-title">AI Insights</h1>
+                <p class="module-subtitle">Predictive analytics and recommendations powered by GPT-4o</p>
+            </div>
+            
+            <div class="header-actions">
+                <lightning-combobox name="module" label="" placeholder="All Modules" options={moduleOptions} value={moduleFilter} onchange={handleModuleFilter}></lightning-combobox>
+                <lightning-combobox name="severity" label="" placeholder="Severity" options={severityOptions} value={severityFilter} onchange={handleSeverityFilter}></lightning-combobox>
+            </div>
+        </div>
+
+        <template if:true={isLoading}>
+            <div class="loading-center"><lightning-spinner alternative-text="Loading insights" size="medium"></lightning-spinner></div>
+        </template>
+
+        <template if:false={isLoading}>
+            <div class="insights-grid">
+                <template for:each={insights} for:item="insight">
+                    <div key={insight.Id} class={insight.cardClass}>
+                        <div class="insight-header">
+                            <span class={insight.severityClass}>{insight.Severity__c}</span>
+                            <span class="insight-module">{insight.Module__c}</span>
+                            <span class="insight-provider">{insight.AI_Provider__c}</span>
+                        </div>
+                        <div class="insight-title">{insight.Title__c}</div>
+                        <div class="insight-summary">{insight.summary}</div>
+                        <div class="insight-footer">
+                            <div class="insight-confidence">
+                                <span class="conf-label">Confidence</span>
+                                <div class="conf-bar-bg">
+                                    <div class="conf-bar" style={insight.confStyle}></div>
+                                </div>
+                                <span class="conf-value">{insight.confPct}%</span>
+                            </div>
+                            <span class="insight-age">{insight.createdAge}</span>
+                        </div>
+                    </div>
+                </template>
+
+                <template if:true={isEmpty}>
+                    <div class="empty-state">
+                        <lightning-icon icon-name="utility:einstein" size="large" alternative-text="No insights"></lightning-icon>
+                        <p>No AI insights yet. Run predictions from any module to generate recommendations here.</p>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+</template>
