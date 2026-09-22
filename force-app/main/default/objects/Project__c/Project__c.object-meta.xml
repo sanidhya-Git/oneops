@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Project</label>
+    <pluralLabel>Projects</pluralLabel>
+    <nameField>
+        <label>Project Name</label>
+        <type>Text</type>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Project management records including Kanban board, Gantt data, milestones, and resource tracking.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>true</enableChangeDataCapture>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+
+    <fields>
+        <fullName>Project_Code__c</fullName>
+        <label>Project Code</label>
+        <type>Text</type>
+        <length>20</length>
+        <unique>true</unique>
+        <externalId>true</externalId>
+        <required>true</required>
+        <description>Auto-generated code, e.g. PRJ-2024-001</description>
+    </fields>
+    <fields>
+        <fullName>Account__c</fullName>
+        <label>Client Account</label>
+        <type>Lookup</type>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Projects</relationshipLabel>
+        <relationshipName>Projects</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Project_Manager__c</fullName>
+        <label>Project Manager</label>
+        <type>Lookup</type>
+        <referenceTo>Employee__c</referenceTo>
+        <relationshipLabel>Managed Projects</relationshipLabel>
+        <relationshipName>Managed_Projects</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <label>Status</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Not Started</fullName><default>true</default><label>Not Started</label></value>
+                <value><fullName>Planning</fullName><default>false</default><label>Planning</label></value>
+                <value><fullName>In Progress</fullName><default>false</default><label>In Progress</label></value>
+                <value><fullName>On Hold</fullName><default>false</default><label>On Hold</label></value>
+                <value><fullName>Completed</fullName><default>false</default><label>Completed</label></value>
+                <value><fullName>Cancelled</fullName><default>false</default><label>Cancelled</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Priority__c</fullName>
+        <label>Priority</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Critical</fullName><default>false</default><label>Critical</label></value>
+                <value><fullName>High</fullName><default>false</default><label>High</label></value>
+                <value><fullName>Medium</fullName><default>true</default><label>Medium</label></value>
+                <value><fullName>Low</fullName><default>false</default><label>Low</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <label>Start Date</label>
+        <type>Date</type>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <label>End Date</label>
+        <type>Date</type>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Budget__c</fullName>
+        <label>Budget</label>
+        <type>Currency</type>
+        <precision>16</precision>
+        <scale>2</scale>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Actual_Cost__c</fullName>
+        <label>Actual Cost</label>
+        <type>Currency</type>
+        <precision>16</precision>
+        <scale>2</scale>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Completion_Percentage__c</fullName>
+        <label>Completion %</label>
+        <type>Percent</type>
+        <precision>5</precision>
+        <scale>1</scale>
+        <required>false</required>
+        <description>Auto-calculated from completed vs total tasks.</description>
+    </fields>
+    <fields>
+        <fullName>AI_Health_Score__c</fullName>
+        <label>AI Health Score</label>
+        <type>Number</type>
+        <precision>5</precision>
+        <scale>1</scale>
+        <required>false</required>
+        <description>0–100 project health score generated by AI based on timeline, budget, and task completion rates.</description>
+    </fields>
+    <fields>
+        <fullName>AI_Risk_Assessment__c</fullName>
+        <label>AI Risk Assessment</label>
+        <type>LongTextArea</type>
+        <length>32768</length>
+        <visibleLines>4</visibleLines>
+        <required>false</required>
+        <description>AI-generated risk assessment and mitigation recommendations.</description>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <label>Description</label>
+        <type>LongTextArea</type>
+        <length>32768</length>
+        <visibleLines>5</visibleLines>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Total_Hours_Logged__c</fullName>
+        <label>Total Hours Logged</label>
+        <type>Number</type>
+        <precision>8</precision>
+        <scale>2</scale>
+        <required>false</required>
+    </fields>
+</CustomObject>
