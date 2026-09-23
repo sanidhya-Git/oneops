@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Purchase Order</label>
+    <pluralLabel>Purchase Orders</pluralLabel>
+    <nameField>
+        <label>PO Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>PO-{YYYY}-{0000}</displayFormat>
+        <startingNumber>1</startingNumber>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Purchase orders from vendors with full lifecycle management — draft through payment confirmation.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+
+    <fields>
+        <fullName>Vendor__c</fullName>
+        <label>Vendor</label>
+        <type>MasterDetail</type>
+        <referenceTo>Vendor__c</referenceTo>
+        <relationshipLabel>Purchase Orders</relationshipLabel>
+        <relationshipName>Purchase_Orders</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <label>Status</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Draft</fullName><default>true</default><label>Draft</label></value>
+                <value><fullName>Pending Approval</fullName><default>false</default><label>Pending Approval</label></value>
+                <value><fullName>Approved</fullName><default>false</default><label>Approved</label></value>
+                <value><fullName>Sent to Vendor</fullName><default>false</default><label>Sent to Vendor</label></value>
+                <value><fullName>Partially Received</fullName><default>false</default><label>Partially Received</label></value>
+                <value><fullName>Fully Received</fullName><default>false</default><label>Fully Received</label></value>
+                <value><fullName>Invoiced</fullName><default>false</default><label>Invoiced</label></value>
+                <value><fullName>Paid</fullName><default>false</default><label>Paid</label></value>
+                <value><fullName>Cancelled</fullName><default>false</default><label>Cancelled</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Order_Date__c</fullName>
+        <label>Order Date</label>
+        <type>Date</type>
+        <required>true</required>
+        <defaultValue>TODAY()</defaultValue>
+    </fields>
+    <fields>
+        <fullName>Expected_Delivery_Date__c</fullName>
+        <label>Expected Delivery Date</label>
+        <type>Date</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Actual_Delivery_Date__c</fullName>
+        <label>Actual Delivery Date</label>
+        <type>Date</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Subtotal__c</fullName>
+        <label>Subtotal</label>
+        <type>Currency</type>
+        <precision>16</precision>
+        <scale>2</scale>
+        <required>false</required>
+        <description>Auto-calculated from Purchase_Order_Line__c child records.</description>
+    </fields>
+    <fields>
+        <fullName>Tax_Amount__c</fullName>
+        <label>Tax Amount</label>
+        <type>Currency</type>
+        <precision>16</precision>
+        <scale>2</scale>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Total_Amount__c</fullName>
+        <label>Total Amount</label>
+        <type>Formula</type>
+        <formula>Subtotal__c + Tax_Amount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <returnType>Currency</returnType>
+        <precision>16</precision>
+        <scale>2</scale>
+    </fields>
+    <fields>
+        <fullName>Approved_By__c</fullName>
+        <label>Approved By</label>
+        <type>Lookup</type>
+        <referenceTo>User</referenceTo>
+        <relationshipLabel>PO Approvals</relationshipLabel>
+        <relationshipName>PO_Approvals</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Shipped_To_Warehouse__c</fullName>
+        <label>Ship To Warehouse</label>
+        <type>Lookup</type>
+        <referenceTo>Warehouse__c</referenceTo>
+        <relationshipLabel>Inbound POs</relationshipLabel>
+        <relationshipName>Inbound_POs</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Notes__c</fullName>
+        <label>Notes</label>
+        <type>LongTextArea</type>
+        <length>32768</length>
+        <visibleLines>3</visibleLines>
+        <required>false</required>
+    </fields>
+</CustomObject>
