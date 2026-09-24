@@ -1,0 +1,22 @@
+<template>
+    <div class={cardClass} role="region" aria-label={label}>
+        <div class="kpi-icon">
+            <lightning-icon icon-name={icon} size="small" alternative-text={label}></lightning-icon>
+        </div>
+        <div class="kpi-body">
+            <span class="kpi-label">{label}</span>
+            <span class="kpi-value">{formattedValue}</span>
+            <template if:true={hasTrend}>
+                <span class={trendClass}>
+                    <lightning-icon icon-name={trendIcon} size="xx-small" alternative-text="trend"></lightning-icon>
+                    {trend}%
+                </span>
+            </template>
+        </div>
+        <template if:true={isLoading}>
+            <div class="kpi-loading">
+                <lightning-spinner size="small" alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+    </div>
+</template>
