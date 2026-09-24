@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Support Ticket</label>
+    <pluralLabel>Support Tickets</pluralLabel>
+    <nameField>
+        <label>Ticket Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>TKT-{YYYY}-{00000}</displayFormat>
+        <startingNumber>1</startingNumber>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Customer support tickets with SLA tracking, AI deflection, CSAT, and omnichannel intake.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>true</enableChangeDataCapture>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+
+    <fields>
+        <fullName>Account__c</fullName>
+        <label>Account</label>
+        <type>Lookup</type>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Support Tickets</relationshipLabel>
+        <relationshipName>Support_Tickets</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <label>Contact</label>
+        <type>Lookup</type>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Support Tickets</relationshipLabel>
+        <relationshipName>Support_Tickets</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Assigned_Agent__c</fullName>
+        <label>Assigned Agent</label>
+        <type>Lookup</type>
+        <referenceTo>User</referenceTo>
+        <relationshipLabel>Assigned Tickets</relationshipLabel>
+        <relationshipName>Assigned_Tickets</relationshipName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <label>Status</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>New</fullName><default>true</default><label>New</label></value>
+                <value><fullName>Open</fullName><default>false</default><label>Open</label></value>
+                <value><fullName>In Progress</fullName><default>false</default><label>In Progress</label></value>
+                <value><fullName>Waiting on Customer</fullName><default>false</default><label>Waiting on Customer</label></value>
+                <value><fullName>Escalated</fullName><default>false</default><label>Escalated</label></value>
+                <value><fullName>Resolved</fullName><default>false</default><label>Resolved</label></value>
+                <value><fullName>Closed</fullName><default>false</default><label>Closed</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Priority__c</fullName>
+        <label>Priority</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Critical</fullName><default>false</default><label>Critical</label></value>
+                <value><fullName>High</fullName><default>false</default><label>High</label></value>
+                <value><fullName>Medium</fullName><default>true</default><label>Medium</label></value>
+                <value><fullName>Low</fullName><default>false</default><label>Low</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Category__c</fullName>
+        <label>Category</label>
+        <type>Picklist</type>
+        <required>false</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Technical Issue</fullName><default>false</default><label>Technical Issue</label></value>
+                <value><fullName>Billing</fullName><default>false</default><label>Billing</label></value>
+                <value><fullName>Feature Request</fullName><default>false</default><label>Feature Request</label></value>
+                <value><fullName>Bug Report</fullName><default>false</default><label>Bug Report</label></value>
+                <value><fullName>Access Request</fullName><default>false</default><label>Access Request</label></value>
+                <value><fullName>General Inquiry</fullName><default>false</default><label>General Inquiry</label></value>
+                <value><fullName>Integration Issue</fullName><default>false</default><label>Integration Issue</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Channel__c</fullName>
+        <label>Channel</label>
+        <type>Picklist</type>
+        <required>false</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Email</fullName><default>true</default><label>Email</label></value>
+                <value><fullName>Phone</fullName><default>false</default><label>Phone</label></value>
+                <value><fullName>Web Portal</fullName><default>false</default><label>Web Portal</label></value>
+                <value><fullName>Chat</fullName><default>false</default><label>Chat</label></value>
+                <value><fullName>Social Media</fullName><default>false</default><label>Social Media</label></value>
+                <value><fullName>API</fullName><default>false</default><label>API</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <label>Description</label>
+        <type>LongTextArea</type>
+        <length>131072</length>
+        <visibleLines>6</visibleLines>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Resolution__c</fullName>
+        <label>Resolution</label>
+        <type>LongTextArea</type>
+        <length>131072</length>
+        <visibleLines>6</visibleLines>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>SLA_Due_Date__c</fullName>
+        <label>SLA Due Date</label>
+        <type>DateTime</type>
+        <required>false</required>
+        <description>Computed on creation based on Priority. Triggers escalation workflow if breached.</description>
+    </fields>
+    <fields>
+        <fullName>Is_SLA_Breached__c</fullName>
+        <label>SLA Breached</label>
+        <type>Formula</type>
+        <formula>AND(NOT(ISPICKVAL(Status__c, 'Resolved')), NOT(ISPICKVAL(Status__c, 'Closed')), SLA_Due_Date__c &lt; NOW())</formula>
+        <returnType>Checkbox</returnType>
+    </fields>
+    <fields>
+        <fullName>AI_Suggested_Solution__c</fullName>
+        <label>AI Suggested Solution</label>
+        <type>LongTextArea</type>
+        <length>32768</length>
+        <visibleLines>4</visibleLines>
+        <required>false</required>
+        <description>AI-generated resolution suggestion based on description and knowledge base.</description>
+    </fields>
+    <fields>
+        <fullName>AI_Sentiment__c</fullName>
+        <label>AI Sentiment</label>
+        <type>Picklist</type>
+        <required>false</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Positive</fullName><default>false</default><label>Positive</label></value>
+                <value><fullName>Neutral</fullName><default>false</default><label>Neutral</label></value>
+                <value><fullName>Negative</fullName><default>false</default><label>Negative</label></value>
+                <value><fullName>Frustrated</fullName><default>false</default><label>Frustrated</label></value>
+            </valueSetDefinition>
+        </valueSet>
+        <description>AI-detected customer sentiment from ticket description.</description>
+    </fields>
+    <fields>
+        <fullName>CSAT_Score__c</fullName>
+        <label>CSAT Score</label>
+        <type>Number</type>
+        <precision>3</precision>
+        <scale>0</scale>
+        <required>false</required>
+        <description>Customer Satisfaction score 1–5 collected after ticket resolution.</description>
+    </fields>
+    <fields>
+        <fullName>Resolved_Date__c</fullName>
+        <label>Resolved Date</label>
+        <type>DateTime</type>
+        <required>false</required>
+    </fields>
+    <fields>
+        <fullName>First_Response_Date__c</fullName>
+        <label>First Response Date</label>
+        <type>DateTime</type>
+        <required>false</required>
+    </fields>
+</CustomObject>
