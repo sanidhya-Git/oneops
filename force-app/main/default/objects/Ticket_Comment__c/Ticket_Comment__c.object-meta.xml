@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Ticket Comment</label>
+    <pluralLabel>Ticket Comments</pluralLabel>
+    <nameField>
+        <label>Comment ID</label>
+        <type>AutoNumber</type>
+        <displayFormat>CMT-{0000000}</displayFormat>
+        <startingNumber>1</startingNumber>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <enableBulkApi>true</enableBulkApi>
+    <enableReports>false</enableReports>
+
+    <fields>
+        <fullName>Support_Ticket__c</fullName>
+        <label>Support Ticket</label>
+        <type>MasterDetail</type>
+        <referenceTo>Support_Ticket__c</referenceTo>
+        <relationshipLabel>Comments</relationshipLabel>
+        <relationshipName>Comments</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+    </fields>
+    <fields>
+        <fullName>Body__c</fullName>
+        <label>Body</label>
+        <type>LongTextArea</type>
+        <length>131072</length>
+        <visibleLines>6</visibleLines>
+        <required>true</required>
+    </fields>
+    <fields>
+        <fullName>Author_Type__c</fullName>
+        <label>Author Type</label>
+        <type>Picklist</type>
+        <required>true</required>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Agent</fullName><default>true</default><label>Agent</label></value>
+                <value><fullName>Customer</fullName><default>false</default><label>Customer</label></value>
+                <value><fullName>AI</fullName><default>false</default><label>AI</label></value>
+                <value><fullName>System</fullName><default>false</default><label>System</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Is_Internal__c</fullName>
+        <label>Is Internal Note</label>
+        <type>Checkbox</type>
+        <defaultValue>false</defaultValue>
+        <description>Internal notes are visible only to agents, not the customer.</description>
+    </fields>
+    <fields>
+        <fullName>Is_AI_Generated__c</fullName>
+        <label>AI Generated</label>
+        <type>Checkbox</type>
+        <defaultValue>false</defaultValue>
+    </fields>
+</CustomObject>
