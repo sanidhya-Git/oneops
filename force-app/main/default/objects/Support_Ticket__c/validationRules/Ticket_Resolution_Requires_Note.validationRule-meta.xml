@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ticket_Resolution_Requires_Note</fullName>
+    <active>true</active>
+    <description>A resolution note is required when closing a ticket as Resolved.</description>
+    <errorConditionFormula>ISPICKVAL(Status__c, 'Resolved') &amp;&amp; ISBLANK(Resolution_Note__c)</errorConditionFormula>
+    <errorDisplayField>Resolution_Note__c</errorDisplayField>
+    <errorMessage>Resolution Note is required to mark a ticket as Resolved.</errorMessage>
+</ValidationRule>
